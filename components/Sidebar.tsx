@@ -16,6 +16,7 @@ import {
   UserCircleIcon,
 } from "@heroicons/react/24/solid";
 import { signIn, signOut, useSession, getProviders } from "next-auth/react";
+import Link from "next/link";
 
 export default function Sidebar() {
   const test: Array<number> = [];
@@ -24,11 +25,13 @@ export default function Sidebar() {
   const [workspace, setWorkspace] = useState(test);
   return (
     <Card className="fixed top-4 left-4 h-[calc(100vh-2rem)] w-full max-w-[17rem] p-4 shadow-xl shadow-blue-gray-900/5">
-      <div className="mb-2 p-4">
-        <Typography variant="h5" color="blue-gray">
-          Uvumi TODO
-        </Typography>
-      </div>
+      <Link href="/">
+        <div className="mb-2 p-4 cursor-pointer" onClick={() => {}}>
+          <Typography variant="h5" color="blue-gray">
+            Uvumi TODO
+          </Typography>
+        </div>
+      </Link>
       <List>
         {/* Login / Account section */}
         {session?.user ? (
