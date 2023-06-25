@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import {
   Card,
   Typography,
@@ -22,7 +22,15 @@ export default function Sidebar() {
   const test: Array<number> = [];
   const { data: session } = useSession();
 
-  const [workspace, setWorkspace] = useState(test);
+  useEffect(() => {
+    const fetchPosts = async () => {
+      // const response = await fetch(`/api/users/${session?.user.id}/workspaces`);
+      // const data = await response.json();
+      // setWorkspaces(data);
+    };
+    // if (session?.user.id) fetchPosts();
+  }, []);
+  const [workspaces, setWorkspaces] = useState([]);
   return (
     <Card className="fixed top-4 left-4 h-[calc(100vh-2rem)] w-full max-w-[17rem] p-4 shadow-xl shadow-blue-gray-900/5">
       <Link href="/">
@@ -56,7 +64,7 @@ export default function Sidebar() {
 
         <hr className="my-2 border-blue-gray-100" />
         {/* Render all workspaces */}
-        {workspace.map((e: number) => (
+        {workspaces.map((e: number) => (
           <ListItem key={e}>
             <ListItemPrefix>
               <PresentationChartBarIcon className="h-5 w-5 blue-400" />
@@ -67,10 +75,10 @@ export default function Sidebar() {
         <ListItem
           onClick={() => {
             let index = 0;
-            if (workspace.length) {
-              index = workspace[workspace.length - 1] + 1;
+            if (workspaces.length) {
+              index = workspaces[workspaces.length - 1] + 1;
             }
-            setWorkspace([...workspace, index]);
+            setWorkspace([...workspaces, index]);
           }}
         >
           + Add workspace

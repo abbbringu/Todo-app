@@ -1,6 +1,5 @@
 import { Inter } from "next/font/google";
 import Sidebar from "@/components/Sidebar";
-import NextAuthProvider from "@/components/NextAuthProvider";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata = {
@@ -16,14 +15,12 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={inter.className}>
-        <NextAuthProvider>
-          <div className="flex flex-row">
-            <div className="w-[18rem] md:block hidden">
-              <Sidebar />
-            </div>
-            <div className="bg-teal-50 flex-1">{children}</div>
+        <div className="flex flex-row">
+          <div className="w-[18rem] md:block hidden">
+            <Sidebar />
           </div>
-        </NextAuthProvider>
+          <div className="bg-teal-50 flex-1">{children}</div>
+        </div>
       </body>
     </html>
   );
