@@ -1,6 +1,5 @@
 "use client";
 
-import { useState, useEffect } from "react";
 import {
   Card,
   Typography,
@@ -15,6 +14,9 @@ import {
   PresentationChartBarIcon,
   UserCircleIcon,
 } from "@heroicons/react/24/solid";
+
+import { useRouter } from "next/navigation";
+import { useState, useEffect } from "react";
 import { signIn, signOut, useSession, getProviders } from "next-auth/react";
 import Link from "next/link";
 
@@ -22,14 +24,45 @@ export default function Sidebar() {
   const test: Array<number> = [];
   const { data: session } = useSession();
 
+  const createWorkspace = async () => {
+    // setIsSubmitting(true);
+    const newItem = [
+      {
+        title: "New workspace",
+        userId: session?.user?.id,
+        color: "cyan",
+        list: [],
+      },
+    ];
+    try {
+      const response = await fetch("/api/workspace/new", {
+        method: "POST",
+        body: JSON.stringify(newItem[0]),
+      });
+      const fetchPosts = async () => {
+        const response = await fetch(
+          `/api/users/${session?.user?.id}/workspaces`
+        );
+        const data = await response.json();
+        setWorkspaces(data);
+      };
+      if (session?.user) fetchPosts();
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   useEffect(() => {
     const fetchPosts = async () => {
-      // const response = await fetch(`/api/users/${session?.user.id}/workspaces`);
-      // const data = await response.json();
-      // setWorkspaces(data);
+      const response = await fetch(
+        `/api/users/${session?.user?.id}/workspaces`
+      );
+      const data = await response.json();
+      setWorkspaces(data);
     };
-    // if (session?.user.id) fetchPosts();
-  }, []);
+    if (session?.user) fetchPosts();
+  }, [session?.user.id]);
+  const [updateWorkspace, setUpdateWorkspace] = useState(false);
   const [workspaces, setWorkspaces] = useState([]);
   return (
     <Card className="fixed top-4 left-4 h-[calc(100vh-2rem)] w-full max-w-[17rem] p-4 shadow-xl shadow-blue-gray-900/5">
@@ -64,25 +97,15 @@ export default function Sidebar() {
 
         <hr className="my-2 border-blue-gray-100" />
         {/* Render all workspaces */}
-        {workspaces.map((e: number) => (
-          <ListItem key={e}>
+        {workspaces.map((e: any) => (
+          <ListItem key={e._id}>
             <ListItemPrefix>
-              <PresentationChartBarIcon className="h-5 w-5 blue-400" />
+              <div className={`w-2 h-2 bg-${e.color}-800 rounded-full`} />
             </ListItemPrefix>
-            Workspace {e}
+            {e.title}
           </ListItem>
         ))}
-        <ListItem
-          onClick={() => {
-            let index = 0;
-            if (workspaces.length) {
-              index = workspaces[workspaces.length - 1] + 1;
-            }
-            setWorkspace([...workspaces, index]);
-          }}
-        >
-          + Add workspace
-        </ListItem>
+        <ListItem onClick={createWorkspace}>+ Add workspace</ListItem>
       </List>
     </Card>
   );

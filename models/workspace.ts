@@ -1,6 +1,6 @@
 import { Schema, model, models } from "mongoose";
 
-const PromptSchema = new Schema({
+const WorkspaceSchema = new Schema({
   creator: {
     type: Schema.Types.ObjectId,
     ref: "User",
@@ -13,8 +13,17 @@ const PromptSchema = new Schema({
     type: String,
     required: [true, "color is required."],
   },
+  list: {
+    type: [
+      {
+        title: String,
+        done: Boolean,
+      },
+    ],
+    required: [false, "list is not required"],
+  },
 });
 
-const Prompt = models.Prompt || model("Prompt", PromptSchema);
+const Workspace = models.Workspace || model("Workspace", WorkspaceSchema);
 
-export default Prompt;
+export default Workspace;
