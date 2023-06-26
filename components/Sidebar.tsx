@@ -8,11 +8,12 @@ import {
   ListItemPrefix,
   Avatar,
   ListItemSuffix,
-  Chip,
+  IconButton,
 } from "@material-tailwind/react";
 import {
   PresentationChartBarIcon,
   UserCircleIcon,
+  TrashIcon,
 } from "@heroicons/react/24/solid";
 
 import { useRouter } from "next/navigation";
@@ -98,7 +99,7 @@ export default function Sidebar() {
         <hr className="my-2 border-blue-gray-100" />
         {/* Render all workspaces */}
         {workspaces.map((e: any) => (
-          <ListItem key={e._id}>
+          <ListItem key={e._id} className="group">
             <ListItemPrefix>
               <div className={`w-2 h-2 bg-${e.color}-800 rounded-full`} />
             </ListItemPrefix>
