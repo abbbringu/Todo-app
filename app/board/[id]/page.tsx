@@ -3,6 +3,7 @@ import React from "react";
 import { useState, useEffect } from "react";
 import { useSession } from "next-auth/react";
 import DashboardHeader from "@/components/dashboardHeader";
+import TodoTable from "@/components/TodoTable";
 
 const board = ({ params }) => {
   const { data: session } = useSession();
@@ -23,7 +24,9 @@ const board = ({ params }) => {
   return (
     <div className="flex min-h-screen flex-col w-full items-center">
       <DashboardHeader title={workspace?.title || ""} />
-      {params?.id}
+      <div className="w-full max-w-screen-xl pt-5">
+        <TodoTable />
+      </div>
     </div>
   );
 };

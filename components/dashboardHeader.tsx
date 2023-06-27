@@ -4,6 +4,7 @@ import React from "react";
 import { Typography, IconButton } from "@material-tailwind/react";
 
 import { ArrowLeftIcon, Cog6ToothIcon } from "@heroicons/react/24/outline";
+import SettingsIconButton from "./SettingsIconButton";
 
 interface headerProps {
   title: string;
@@ -26,10 +27,8 @@ export default function DashboardHeader({ title }: headerProps) {
         </IconButton>
         <div className="flex items-center justify-between text-blue-gray-500">
           <Typography
-            as="a"
-            href="#"
             variant="h6"
-            className="mr-4 cursor-pointer py-1.5"
+            className="mr-4 py-1.5"
           >
             {title}
           </Typography>
@@ -38,14 +37,7 @@ export default function DashboardHeader({ title }: headerProps) {
       </div>
       {/* Settings icon */}
       <div>
-        <IconButton
-          variant="text"
-          className="rounded-full"
-          color="gray"
-          size="md"
-        >
-          <Cog6ToothIcon color="gray" className="w-5 h-5" />
-        </IconButton>
+      <SettingsIconButton />
       </div>
     </div>
   );

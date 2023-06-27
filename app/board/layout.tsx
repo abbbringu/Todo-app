@@ -19,7 +19,7 @@ export default function RootLayout({
           <div className="w-[18rem] md:block hidden">
             <Sidebar />
           </div>
-          <div className="bg-teal-50 flex-1">{children}</div>
+          <div className="flex-1 overflow-hidden">{children}</div>
         </div>
       </body>
     </html>
