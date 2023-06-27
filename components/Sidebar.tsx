@@ -10,11 +10,7 @@ import {
   ListItemSuffix,
   IconButton,
 } from "@material-tailwind/react";
-import {
-  PresentationChartBarIcon,
-  UserCircleIcon,
-  TrashIcon,
-} from "@heroicons/react/24/solid";
+import { UserCircleIcon, TrashIcon } from "@heroicons/react/24/solid";
 
 import { useRouter } from "next/navigation";
 import { useState, useEffect } from "react";
@@ -22,17 +18,16 @@ import { signIn, signOut, useSession, getProviders } from "next-auth/react";
 import Link from "next/link";
 
 export default function Sidebar() {
-  const test: Array<number> = [];
   const { data: session } = useSession();
+  const possibleColors = ["bg-cyan-800"];
 
   const createWorkspace = async () => {
-    // setIsSubmitting(true);
     const newItem = [
       {
         title: "New workspace",
         userId: session?.user?.id,
         color: "cyan",
-        list: [],
+        list: [{ title: "Webdev Uvumi", done: false }],
       },
     ];
     try {
@@ -70,7 +65,7 @@ export default function Sidebar() {
       <Link href="/">
         <div className="mb-2 p-4 cursor-pointer" onClick={() => {}}>
           <Typography variant="h5" color="blue-gray">
-            Uvumi TODO
+            Juvumi TODO
           </Typography>
         </div>
       </Link>
@@ -99,12 +94,14 @@ export default function Sidebar() {
         <hr className="my-2 border-blue-gray-100" />
         {/* Render all workspaces */}
         {workspaces.map((e: any) => (
-          <ListItem key={e._id} className="group">
-            <ListItemPrefix>
-              <div className={`w-2 h-2 bg-${e.color}-800 rounded-full`} />
-            </ListItemPrefix>
-            {e.title}
-          </ListItem>
+          <Link key={e._id} href={`/board/${e._id}`}>
+            <ListItem>
+              <ListItemPrefix>
+                <div className={`w-2 h-2 bg-${e.color}-800 rounded-full`} />
+              </ListItemPrefix>
+              {e.title}
+            </ListItem>
+          </Link>
         ))}
         <ListItem onClick={createWorkspace}>+ Add workspace</ListItem>
       </List>

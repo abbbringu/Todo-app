@@ -1,5 +1,7 @@
 import { Schema, model, models } from "mongoose";
 
+const TodoSchema = new Schema({ title: String, done: Boolean });
+
 const WorkspaceSchema = new Schema({
   creator: {
     type: Schema.Types.ObjectId,
@@ -14,13 +16,8 @@ const WorkspaceSchema = new Schema({
     required: [true, "color is required."],
   },
   list: {
-    type: [
-      {
-        title: String,
-        done: Boolean,
-      },
-    ],
-    required: [false, "list is not required"],
+    type: [TodoSchema],
+    required: [true, "list is required"],
   },
 });
 
