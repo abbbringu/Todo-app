@@ -19,7 +19,7 @@ import Link from "next/link";
 
 export default function Sidebar() {
 	const { data: session } = useSession();
-	const possibleColors = ["bg-cyan-800"];
+	const possibleColors = ["bg-cyan-800", "bg-amber-800", "bg-indigo-800"];
 
 	const createWorkspace = async () => {
 		const newItem = [

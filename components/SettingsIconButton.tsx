@@ -8,15 +8,37 @@ import {
 	IconButton,
 	Button,
 } from "@material-tailwind/react";
-import { ArrowLeftIcon, Cog6ToothIcon } from "@heroicons/react/24/outline";
-import { useState } from "react";
+import { Cog6ToothIcon } from "@heroicons/react/24/outline";
+import { useState, useEffect } from "react";
+import { useSession } from "next-auth/react";
 
-interface headerProps {
-	title: string;
-}
+export default function SettingsIconButton({ workspace }) {
+	const { data: session } = useSession();
+	const [input, setInput] = useState("");
+	const [color, setColor] = useState("cyan");
 
-export default function SettingsIconButton({ title }: headerProps) {
-	const [input, setInput] = useState(title);
+	const saveHandler = async () => {
+		try {
+			const fetchPosts = async () => {
+				const response = await fetch(
+					`/api/users/${session?.user?.id}/${workspace._id}/workspace`,
+					{
+						method: "PATCH",
+						body: JSON.stringify({
+							title: input,
+							color: color,
+						}),
+					}
+				);
+				const data = await response.json();
+				window.location.reload();
+			};
+			if (session?.user) fetchPosts();
+		} catch (error) {
+			console.log(error);
+		}
+	};
+
 	return (
 		<Menu
 			placement="bottom-end"
@@ -45,17 +67,19 @@ export default function SettingsIconButton({ title }: headerProps) {
 				<MenuItem>
 					<Menu placement="left-start" offset={15}>
 						<MenuHandler>
-							<MenuItem>Color</MenuItem>
+							<MenuItem>{color}</MenuItem>
 						</MenuHandler>
 						<MenuList>
-							<MenuItem>Color 1</MenuItem>
-							<MenuItem>Color 2</MenuItem>
-							<MenuItem>Color 3</MenuItem>
+							<MenuItem onClick={() => setColor("cyan")}>Cyan</MenuItem>
+							<MenuItem onClick={() => setColor("amber")}>Amber</MenuItem>
+							<MenuItem onClick={() => setColor("indigo")}>Indigo</MenuItem>
 						</MenuList>
 					</Menu>
 				</MenuItem>
 				<MenuItem>
-					<Button fullWidth>Save</Button>
+					<Button fullWidth onClick={saveHandler}>
+						Save
+					</Button>
 				</MenuItem>
 			</MenuList>
 		</Menu>

@@ -66,7 +66,10 @@ export default function TodoTable({ list }) {
 					</thead>
 					<tbody>
 						{list.map(
-							({ title, tag, status, priority }: todoItem, index: number) => {
+							(
+								{ title, tag, status, priority, done }: todoItem,
+								index: number
+							) => {
 								const isLast = index === list.length - 1;
 								const classes = isLast
 									? "p-4"
@@ -78,6 +81,7 @@ export default function TodoTable({ list }) {
 										<td className={classes}>
 											<div className="flex items-center gap-3">
 												<Checkbox
+													defaultChecked={done || false}
 													id={title}
 													label={title}
 													ripple={false}

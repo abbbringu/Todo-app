@@ -6,11 +6,7 @@ import { Typography, IconButton } from "@material-tailwind/react";
 import { ArrowLeftIcon, Cog6ToothIcon } from "@heroicons/react/24/outline";
 import SettingsIconButton from "./SettingsIconButton";
 
-interface headerProps {
-	title: string;
-}
-
-export default function DashboardHeader({ title }: headerProps) {
+export default function DashboardHeader({ workspace }) {
 	const router = useRouter();
 	return (
 		<div className="mx-auto w-full px-6 py-3 flex flex-row justify-between items-center bg-white">
@@ -27,14 +23,14 @@ export default function DashboardHeader({ title }: headerProps) {
 				</IconButton>
 				<div className="flex items-center justify-between text-blue-gray-500">
 					<Typography variant="h6" className="mr-4 py-1.5">
-						{title}
+						{workspace.title}
 					</Typography>
 					<div className="hidden lg:block"></div>
 				</div>
 			</div>
 			{/* Settings icon */}
 			<div>
-				<SettingsIconButton title={title} />
+				<SettingsIconButton workspace={workspace} />
 			</div>
 		</div>
 	);

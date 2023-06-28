@@ -15,7 +15,7 @@ const board = ({ params }) => {
 				`/api/users/${session?.user.id}/${params?.id}/workspace`
 			);
 			const data = await response.json();
-			console.log(data[0].list);
+
 			setWorkspace(data[0]);
 		};
 
@@ -24,7 +24,7 @@ const board = ({ params }) => {
 
 	return (
 		<div className="flex min-h-screen flex-col w-full items-center">
-			<DashboardHeader title={workspace?.title || ""} />
+			<DashboardHeader workspace={workspace || {}} />
 			<div className="w-full max-w-screen-xl pt-5">
 				<TodoTable list={workspace?.list || []} />
 			</div>
