@@ -6,29 +6,30 @@ import DashboardHeader from "@/components/dashboardHeader";
 import TodoTable from "@/components/TodoTable";
 
 const board = ({ params }) => {
-  const { data: session } = useSession();
-  const [workspace, setWorkspace] = useState(null);
-  useEffect(() => {
-    const fetchPosts = async () => {
-      const response = await fetch(
-        `/api/users/${session?.user.id}/${params?.id}/workspace`
-      );
-      const data = await response.json();
-      console.log(data[0]);
-      setWorkspace(data[0]);
-    };
+	const { data: session } = useSession();
+	const [workspace, setWorkspace] = useState(null);
 
-    if (session?.user.id) fetchPosts();
-  }, []);
+	useEffect(() => {
+		const fetchPosts = async () => {
+			const response = await fetch(
+				`/api/users/${session?.user.id}/${params?.id}/workspace`
+			);
+			const data = await response.json();
+			console.log(data[0].list);
+			setWorkspace(data[0]);
+		};
 
-  return (
-    <div className="flex min-h-screen flex-col w-full items-center">
-      <DashboardHeader title={workspace?.title || ""} />
-      <div className="w-full max-w-screen-xl pt-5">
-        <TodoTable />
-      </div>
-    </div>
-  );
+		if (session?.user.id) fetchPosts();
+	}, []);
+
+	return (
+		<div className="flex min-h-screen flex-col w-full items-center">
+			<DashboardHeader title={workspace?.title || ""} />
+			<div className="w-full max-w-screen-xl pt-5">
+				<TodoTable list={workspace?.list || []} />
+			</div>
+		</div>
+	);
 };
 
 export default board;

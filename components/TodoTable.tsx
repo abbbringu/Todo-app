@@ -1,161 +1,148 @@
-import { MagnifyingGlassIcon, ChevronUpDownIcon } from "@heroicons/react/24/outline";
-import { PencilIcon, UserPlusIcon } from "@heroicons/react/24/solid";
 import {
-  Card,
-  CardHeader,
-  Input,
-  Typography,
-  Button,
-  CardBody,
-  Chip,
-  Avatar,
-  IconButton,
-  Tooltip,
+	MinusIcon,
+	ChevronUpDownIcon,
+	Cog8ToothIcon,
+	CheckBadgeIcon,
+} from "@heroicons/react/24/outline";
+import { PencilIcon, TrashIcon } from "@heroicons/react/24/solid";
+import {
+	Card,
+	Checkbox,
+	Input,
+	Typography,
+	Button,
+	CardBody,
+	CardFooter,
+	Chip,
+	Avatar,
+	IconButton,
+	Tooltip,
 } from "@material-tailwind/react";
- 
- 
+import { stat } from "fs";
+import { Number } from "mongoose";
+
 const TABLE_HEAD = ["Todo", "Tag", "Status", "Priority", ""];
- 
-const TABLE_ROWS = [
-  {
-    img: "https://demos.creative-tim.com/test/corporate-ui-dashboard/assets/img/team-3.jpg",
-    name: "John Michael",
-    email: "john@creative-tim.com",
-    job: "Manager",
-    org: "Organization",
-    online: true,
-    date: "23/04/18",
-  },
-  {
-    img: "https://demos.creative-tim.com/test/corporate-ui-dashboard/assets/img/team-2.jpg",
-    name: "Alexa Liras",
-    email: "alexa@creative-tim.com",
-    job: "Programator",
-    org: "Developer",
-    online: false,
-    date: "23/04/18",
-  },
-  {
-    img: "https://demos.creative-tim.com/test/corporate-ui-dashboard/assets/img/team-1.jpg",
-    name: "Laurent Perrier",
-    email: "laurent@creative-tim.com",
-    job: "Executive",
-    org: "Projects",
-    online: false,
-    date: "19/09/17",
-  },
-  {
-    img: "https://demos.creative-tim.com/test/corporate-ui-dashboard/assets/img/team-4.jpg",
-    name: "Michael Levi",
-    email: "michael@creative-tim.com",
-    job: "Programator",
-    org: "Developer",
-    online: true,
-    date: "24/12/08",
-  },
-  {
-    img: "https://demos.creative-tim.com/test/corporate-ui-dashboard/assets/img/team-5.jpg",
-    name: "Richard Gran",
-    email: "richard@creative-tim.com",
-    job: "Manager",
-    org: "Executive",
-    online: false,
-    date: "04/10/21",
-  },
-];
- 
-export default function TodoTable() {
-  return (
-    <Card shadow={false} className="h-full w-full">
-      <CardBody className="overflow-scroll px-0">
-        <table className="mt-4 w-full min-w-max table-auto text-left">
-          <thead>
-            <tr>
-              {TABLE_HEAD.map((head, index) => (
-                <th
-                  key={head}
-                  className="cursor-pointer border-y border-blue-gray-100 bg-blue-gray-50/50 p-4 transition-colors hover:bg-blue-gray-50"
-                >
-                  <Typography
-                    variant="small"
-                    color="blue-gray"
-                    className="flex items-center justify-between gap-2 font-normal leading-none opacity-70"
-                  >
-                    {head}{" "}
-                    {index !== TABLE_HEAD.length - 1 && (
-                      <ChevronUpDownIcon strokeWidth={2} className="h-4 w-4" />
-                    )}
-                  </Typography>
-                </th>
-              ))}
-            </tr>
-          </thead>
-          <tbody>
-            {TABLE_ROWS.map(({ img, name, email, job, org, online, date }, index) => {
-              const isLast = index === TABLE_ROWS.length - 1;
-              const classes = isLast ? "p-4" : "p-4 border-b border-blue-gray-50";
- 
-              return (
-                <tr key={name}>
-                  <td className={classes}>
-                    <div className="flex items-center gap-3">
-                      <Avatar src={img} alt={name} size="sm" />
-                      <div className="flex flex-col">
-                        <Typography variant="small" color="blue-gray" className="font-normal">
-                          {name}
-                        </Typography>
-                        <Typography
-                          variant="small"
-                          color="blue-gray"
-                          className="font-normal opacity-70"
-                        >
-                          {email}
-                        </Typography>
-                      </div>
-                    </div>
-                  </td>
-                  <td className={classes}>
-                    <div className="flex flex-col">
-                      <Typography variant="small" color="blue-gray" className="font-normal">
-                        {job}
-                      </Typography>
-                      <Typography
-                        variant="small"
-                        color="blue-gray"
-                        className="font-normal opacity-70"
-                      >
-                        {org}
-                      </Typography>
-                    </div>
-                  </td>
-                  <td className={classes}>
-                    <div className="w-max">
-                      <Chip
-                        variant="ghost"
-                        size="sm"
-                        value={online ? "online" : "offline"}
-                        color={online ? "green" : "blue-gray"}
-                      />
-                    </div>
-                  </td>
-                  <td className={classes}>
-                    <Typography variant="small" color="blue-gray" className="font-normal">
-                      {date}
-                    </Typography>
-                  </td>
-                  <td className={classes}>
-                    <Tooltip content="Edit User">
-                      <IconButton variant="text" color="blue-gray">
-                        <PencilIcon className="h-4 w-4" />
-                      </IconButton>
-                    </Tooltip>
-                  </td>
-                </tr>
-              );
-            })}
-          </tbody>
-        </table>
-      </CardBody>
-    </Card>
-  );
+
+const statusTitle = ["Todo", "In Progress", "Completed"];
+const statusColor = ["gray", "amber", "green"];
+const statusIcon = [<MinusIcon />, <Cog8ToothIcon />, <CheckBadgeIcon />];
+
+const priorityTitle = ["Low", "Medium", "High"];
+const priorityColor = ["gray", "yellow", "red"];
+
+interface todoItem {
+	title: String;
+	tag?: number;
+	status: number;
+	priority: number;
+	done: Boolean;
+}
+
+export default function TodoTable({ list }) {
+	return (
+		<Card shadow={false} className="h-full w-full">
+			<CardBody className="overflow-scroll px-0">
+				<table className="mt-4 w-full min-w-max table-auto text-left">
+					<thead>
+						<tr>
+							{TABLE_HEAD.map((head, index) => (
+								<th
+									key={head}
+									className="cursor-pointer border-y border-blue-gray-100 bg-blue-gray-50/50 p-4 transition-colors hover:bg-blue-gray-50"
+								>
+									<Typography
+										variant="small"
+										color="blue-gray"
+										className="flex items-center justify-between gap-2 font-normal leading-none opacity-70"
+									>
+										{head}{" "}
+										{index !== TABLE_HEAD.length - 1 && (
+											<ChevronUpDownIcon strokeWidth={2} className="h-4 w-4" />
+										)}
+									</Typography>
+								</th>
+							))}
+						</tr>
+					</thead>
+					<tbody>
+						{list.map(
+							({ title, tag, status, priority }: todoItem, index: number) => {
+								const isLast = index === list.length - 1;
+								const classes = isLast
+									? "p-4"
+									: "p-4 border-b border-blue-gray-50";
+
+								return (
+									<tr key={title}>
+										{/* Todo and label */}
+										<td className={classes}>
+											<div className="flex items-center gap-3">
+												<Checkbox
+													id={title}
+													label={title}
+													ripple={false}
+													className="rounded-full w-5 h-5 hover:before:opacity-0 hover:scale-105 bg-blue-300/25 border-blue-500/50 transition-all"
+												/>
+											</div>
+										</td>
+										{/* Tag */}
+										<td className={classes}>
+											<div className="flex flex-row">
+												<Chip
+													variant="ghost"
+													value={tag}
+													size="sm"
+													color="amber"
+													className="rounded-full"
+												/>
+											</div>
+										</td>
+										{/* Status */}
+										<td className={classes}>
+											<div className="w-max">
+												<Chip
+													variant="gradient"
+													size="sm"
+													value={statusTitle[status]}
+													color={statusColor[status]}
+													icon={statusIcon[status]}
+												/>
+											</div>
+										</td>
+										{/* Priority */}
+										<td className={classes}>
+											<div className="flex">
+												<Chip
+													value={priorityTitle[priority]}
+													color={priorityColor[priority]}
+													variant="outlined"
+												/>
+											</div>
+										</td>
+										<td className={classes}>
+											<Tooltip content="Edit todo">
+												<IconButton variant="text" color="blue-gray">
+													<PencilIcon className="h-4 w-4" />
+												</IconButton>
+											</Tooltip>
+											<IconButton variant="text" color="blue-gray">
+												<TrashIcon className="h-4 w-4" />
+											</IconButton>
+										</td>
+									</tr>
+								);
+							}
+						)}
+					</tbody>
+				</table>
+			</CardBody>
+			<CardFooter className="flex items-center justify-between border-t border-blue-gray-50 p-4">
+				<div className="flex gap-2">
+					<Button variant="filled" color="blue-gray" size="sm">
+						+ Add
+					</Button>
+				</div>
+			</CardFooter>
+		</Card>
+	);
 }

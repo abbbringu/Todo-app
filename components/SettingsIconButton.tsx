@@ -1,3 +1,4 @@
+"use client";
 import {
 	Menu,
 	MenuHandler,
@@ -8,8 +9,14 @@ import {
 	Button,
 } from "@material-tailwind/react";
 import { ArrowLeftIcon, Cog6ToothIcon } from "@heroicons/react/24/outline";
+import { useState } from "react";
 
-export default function SettingsIconButton() {
+interface headerProps {
+	title: string;
+}
+
+export default function SettingsIconButton({ title }: headerProps) {
+	const [input, setInput] = useState(title);
 	return (
 		<Menu
 			placement="bottom-end"
@@ -28,7 +35,13 @@ export default function SettingsIconButton() {
 				</IconButton>
 			</MenuHandler>
 			<MenuList>
-				<Input variant="standard" label="Workspace Name" />
+				<Input
+					variant="standard"
+					label="Title"
+					value={input}
+					onChange={(e) => setInput(e.target.value)}
+					className="py-3"
+				/>
 				<MenuItem>
 					<Menu placement="left-start" offset={15}>
 						<MenuHandler>
