@@ -31,24 +31,10 @@ function NavList() {
 				className="p-1 font-medium"
 			>
 				<a
-					href="/about"
-					className="flex items-center hover:text-blue-500 transition-colors"
-				>
-					About
-				</a>
-			</Typography>
-
-			<Typography
-				as="li"
-				variant="small"
-				color="blue-gray"
-				className="p-1 font-medium"
-			>
-				<a
 					href="/board"
 					className="flex items-center hover:text-blue-500 transition-colors"
 				>
-					Login
+					Dashboard
 				</a>
 			</Typography>
 		</ul>
