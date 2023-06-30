@@ -65,8 +65,8 @@ const HeroSection = () => {
 				overflow-hidden 
 				-left-10 
 				-top-16
-				group-hover:-translate-y-10
-				group-hover:-translate-x-10
+				group-hover:-translate-y-12
+				group-hover:-translate-x-12
 				duration-300 ease-in-out
 				"
 				>
@@ -89,8 +89,8 @@ const HeroSection = () => {
 				overflow-hidden 
 				-left-20 
 				-bottom-8
-				group-hover:translate-y-5
-				group-hover:-translate-x-5
+				group-hover:translate-y-2
+				group-hover:-translate-x-2
 				duration-300 ease-in-out
 				"
 				>

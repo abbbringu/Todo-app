@@ -16,7 +16,7 @@ const benefits = {
 
 const Pricing = () => {
 	return (
-		<div className="w-full flex flex-col pt-5">
+		<div id="pricing" className="w-full flex flex-col pt-5">
 			<div className="text-center">
 				<Typography variant="h2">
 					One tool for your whole company. <br />

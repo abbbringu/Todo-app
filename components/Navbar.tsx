@@ -6,6 +6,7 @@ import {
 	Typography,
 	IconButton,
 } from "@material-tailwind/react";
+import Link from "next/link";
 import { Bars3Icon, XMarkIcon } from "@heroicons/react/24/outline";
 
 function NavList() {
@@ -17,12 +18,12 @@ function NavList() {
 				color="blue-gray"
 				className="p-1 font-medium"
 			>
-				<a
-					href="#"
+				<Link
+					href="#pricing"
 					className="flex items-center hover:text-blue-500 transition-colors"
 				>
 					Pricing
-				</a>
+				</Link>
 			</Typography>
 			<Typography
 				as="li"
@@ -30,12 +31,12 @@ function NavList() {
 				color="blue-gray"
 				className="p-1 font-medium"
 			>
-				<a
+				<Link
 					href="/board"
 					className="flex items-center hover:text-blue-500 transition-colors"
 				>
 					Dashboard
-				</a>
+				</Link>
 			</Typography>
 		</ul>
 	);
@@ -64,7 +65,7 @@ export default function Main_Nav() {
 					variant="h6"
 					className="mr-4 cursor-pointer py-1.5"
 				>
-					Juvumi Todo list
+					Juvumi Todo
 				</Typography>
 				<div className="hidden lg:block">
 					<NavList />
