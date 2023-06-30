@@ -10,13 +10,18 @@ import {
 import { CheckIcon } from "@heroicons/react/24/outline";
 import Link from "next/link";
 
-const colors = ["text-blue-500", "text-deep-purple-500", "text-orange-500"];
+const colors = [
+	"text-blue-500",
+	"text-deep-purple-500",
+	"text-orange-500",
+	"text-gray-500",
+];
 
 interface PriceCardOption {
 	variant: String;
 	price: String;
 	benefits: String[];
-	color: "blue" | "deep-orange" | "deep-purple" | "orange";
+	color: "blue" | "deep-orange" | "deep-purple" | "orange" | "gray";
 }
 
 export default function PriceCard({

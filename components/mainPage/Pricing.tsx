@@ -27,7 +27,7 @@ const Pricing = () => {
 				<PriceCard
 					variant="Free"
 					price="0"
-					color="deep-orange"
+					color="gray"
 					benefits={benefits.free}
 				/>
 				<PriceCard

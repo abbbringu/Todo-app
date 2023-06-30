@@ -5,6 +5,7 @@ import {
 	CheckBadgeIcon,
 } from "@heroicons/react/24/outline";
 import { PencilIcon, TrashIcon } from "@heroicons/react/24/solid";
+import DialogAdd from "./DialogAdd";
 import {
 	Card,
 	Checkbox,
@@ -39,6 +40,8 @@ interface todoItem {
 }
 
 export default function TodoTable({ list }) {
+	const handleAdd = () => {};
+
 	return (
 		<Card shadow={false} className="h-full w-full">
 			<CardBody className="overflow-scroll px-0">
@@ -142,9 +145,7 @@ export default function TodoTable({ list }) {
 			</CardBody>
 			<CardFooter className="flex items-center justify-between border-t border-blue-gray-50 p-4">
 				<div className="flex gap-2">
-					<Button variant="filled" color="blue-gray" size="sm">
-						+ Add
-					</Button>
+					<DialogAdd />
 				</div>
 			</CardFooter>
 		</Card>
