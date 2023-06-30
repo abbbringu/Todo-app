@@ -1,11 +1,11 @@
 "use client";
 import React from "react";
-import { Typography, IconButton } from "@material-tailwind/react";
+import { Typography } from "@material-tailwind/react";
 import Image from "next/image";
 
 const DividingTodo = () => {
 	return (
-		<div className="h-screen flex flex-col p-10 space-y-5">
+		<div className="h-[40vh] md:h-[80vh] flex flex-col p-10 space-y-5">
 			{/* Header */}
 			<div className="flex flex-row justify-center">
 				<Typography variant="h2">

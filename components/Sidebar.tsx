@@ -11,8 +11,6 @@ import {
 	IconButton,
 } from "@material-tailwind/react";
 import { UserCircleIcon, TrashIcon } from "@heroicons/react/24/solid";
-
-import { useRouter } from "next/navigation";
 import { useState, useEffect } from "react";
 import { signIn, signOut, useSession, getProviders } from "next-auth/react";
 import Link from "next/link";
@@ -73,7 +71,7 @@ export default function Sidebar() {
 			<Link href="/">
 				<div className="mb-2 p-4 cursor-pointer" onClick={() => {}}>
 					<Typography variant="h5" color="blue-gray">
-						Juvumi TODO
+						Juvumi Todo
 					</Typography>
 				</div>
 			</Link>
